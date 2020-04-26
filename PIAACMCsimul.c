@@ -4,13 +4,38 @@
  * 
  * Can design both APLCMC and PIAACMC coronagraphs
  *  
- * @author  O. Guyon
- * @date    21 nov 2017
  *
  * 
- * @bug No known bugs.
- * 
  */
+
+
+
+/* ================================================================== */
+/* ================================================================== */
+/*            MODULE INFO                                             */
+/* ================================================================== */
+/* ================================================================== */
+
+// module default short name
+// all CLI calls to this module functions will be <shortname>.<funcname>
+// if set to "", then calls use <funcname>
+#define MODULE_SHORTNAME_DEFAULT "piaacmcsim"
+
+// Module short description
+#define MODULE_DESCRIPTION       "PIAA complex mask coronagraph simulation"
+
+
+
+
+
+/* ================================================================== */
+/* ================================================================== */
+/*            DEPENDANCIES                                            */
+/* ================================================================== */
+/* ================================================================== */
+
+
+#define _GNU_SOURCE
 
 
 // System include
@@ -26,25 +51,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <assert.h>
-
-#ifdef __MACH__
-#include <mach/mach_time.h>
-#define CLOCK_REALTIME 0
-#define CLOCK_MONOTONIC 0
-int clock_gettime(int clk_id, struct mach_timespec *t){
-    mach_timebase_info_data_t timebase;
-    mach_timebase_info(&timebase);
-    uint64_t time;
-    time = mach_absolute_time();
-    double nseconds = ((double)time * (double)timebase.numer)/((double)timebase.denom);
-    double seconds = ((double)time * (double)timebase.numer)/((double)timebase.denom * 1e9);
-    t->tv_sec = seconds;
-    t->tv_nsec = nseconds;
-    return 0;
-}
-#else
 #include <time.h>
-#endif
 
 // External libraries
 
@@ -57,7 +64,6 @@ int clock_gettime(int clk_id, struct mach_timespec *t){
 // milk includes
 //   core modules
 #include "CommandLineInterface/CLIcore.h"
-#include "00CORE/00CORE.h"
 #include "COREMOD_tools/COREMOD_tools.h"
 #include "COREMOD_memory/COREMOD_memory.h"
 #include "COREMOD_arith/COREMOD_arith.h"
@@ -85,6 +91,14 @@ int clock_gettime(int clk_id, struct mach_timespec *t){
 
 
 
+
+/* ================================================================== */
+/* ================================================================== */
+/*            GLOBAL VARIABLES                                        */
+/* ================================================================== */
+/* ================================================================== */
+
+
 static int INITSTATUS_PIAACMCsimul = 0;
 
 
@@ -101,7 +115,28 @@ OPTPIAACMCDESIGN *piaacmc;
 
 
 
+/* ================================================================== */
+/* ================================================================== */
+/*            INITIALIZE LIBRARY                                      */
+/* ================================================================== */
+/* ================================================================== */
 
+// Module initialization macro in CLIcore.h
+// macro argument defines module name for bindings
+//
+INIT_MODULE_LIB(milk_module_example)
+
+
+
+
+
+
+
+/* ================================================================== */
+/* ================================================================== */
+/*            COMMAND LINE INTERFACE (CLI) FUNCTIONS                  */
+/* ================================================================== */
+/* ================================================================== */
 
 
 
@@ -143,10 +178,25 @@ static char flogcomment[200];
 /*  2. Focal plane mask construction                                                               */
 /* =============================================================================================== */
 
-int_fast8_t PIAACMCsimul_rings2sectors_cli(){
-    if(CLI_checkarg(1,4)+CLI_checkarg(2,3)+CLI_checkarg(3,3)==0)    {
-        PIAACMCsimul_rings2sectors(data.cmdargtoken[1].val.string, data.cmdargtoken[2].val.string, data.cmdargtoken[3].val.string);
-        return 0;    }    else        return 1;
+errno_t PIAACMCsimul_rings2sectors__cli()
+{
+    if(0
+            + CLI_checkarg(1, CLIARG_IMG)
+            + CLI_checkarg(2, CLIARG_STR_NOT_IMG)
+            + CLI_checkarg(3, CLIARG_STR_NOT_IMG)
+            == 0)
+    {
+        PIAACMCsimul_rings2sectors(
+            data.cmdargtoken[1].val.string,
+            data.cmdargtoken[2].val.string,
+            data.cmdargtoken[3].val.string);
+
+        return CLICMD_SUCCESS;
+    }
+    else
+    {
+        return CLICMD_INVALID_ARG;
+    }
 }
 
 
@@ -154,11 +204,40 @@ int_fast8_t PIAACMCsimul_rings2sectors_cli(){
 /*  4. Lyot Stop(s)                                                              */
 /* =============================================================================================== */
 
-int_fast8_t PIAACMCsimul_geomProp_cli(){
-	if(CLI_checkarg(1,4)+CLI_checkarg(2,4)+CLI_checkarg(3,3)+CLI_checkarg(4,3)+CLI_checkarg(5,1)+CLI_checkarg(6,1)+CLI_checkarg(7,1)+CLI_checkarg(8,1)+CLI_checkarg(9,1)+CLI_checkarg(10,1)==0)    {
-		PIAACMCsimul_geomProp(data.cmdargtoken[1].val.string, data.cmdargtoken[2].val.string, data.cmdargtoken[3].val.string, data.cmdargtoken[4].val.string, data.cmdargtoken[5].val.numf, data.cmdargtoken[6].val.numf, data.cmdargtoken[7].val.numf, data.cmdargtoken[8].val.numf, data.cmdargtoken[9].val.numf, data.cmdargtoken[10].val.numf);
-	} else return 1;
-		
+errno_t PIAACMCsimul_geomProp__cli()
+{
+    if(0
+            + CLI_checkarg(1, CLIARG_IMG)
+            + CLI_checkarg(2, CLIARG_IMG)
+            + CLI_checkarg(3, CLIARG_STR_NOT_IMG)
+            + CLI_checkarg(4, CLIARG_STR_NOT_IMG)
+            + CLI_checkarg(5, CLIARG_FLOAT)
+            + CLI_checkarg(6, CLIARG_FLOAT)
+            + CLI_checkarg(7, CLIARG_FLOAT)
+            + CLI_checkarg(8, CLIARG_FLOAT)
+            + CLI_checkarg(9, CLIARG_FLOAT)
+            + CLI_checkarg(10, CLIARG_FLOAT)
+            == 0)
+    {
+        PIAACMCsimul_geomProp(
+            data.cmdargtoken[1].val.string,
+            data.cmdargtoken[2].val.string,
+            data.cmdargtoken[3].val.string,
+            data.cmdargtoken[4].val.string,
+            data.cmdargtoken[5].val.numf,
+            data.cmdargtoken[6].val.numf,
+            data.cmdargtoken[7].val.numf,
+            data.cmdargtoken[8].val.numf,
+            data.cmdargtoken[9].val.numf,
+            data.cmdargtoken[10].val.numf);
+
+        return CLICMD_SUCCESS;
+    }
+    else
+    {
+        return CLICMD_INVALID_ARG;
+    }
+
 }
 
 
@@ -167,26 +246,77 @@ int_fast8_t PIAACMCsimul_geomProp_cli(){
 /* =============================================================================================== */
 
 
-int_fast8_t PIAACMC_FPMresp_rmzones_cli(){
-    if(CLI_checkarg(1,4)+CLI_checkarg(2,3)+CLI_checkarg(3,2)==0)    {
-        PIAACMC_FPMresp_rmzones(data.cmdargtoken[1].val.string, data.cmdargtoken[2].val.string, data.cmdargtoken[3].val.numl);
-        return 0;    }    else        return 1;
+errno_t PIAACMC_FPMresp_rmzones__cli()
+{
+    if(0
+            + CLI_checkarg(1, CLIARG_IMG)
+            + CLI_checkarg(2, CLIARG_STR_NOT_IMG)
+            + CLI_checkarg(3, CLIARG_LONG)
+            == 0)
+    {
+        PIAACMC_FPMresp_rmzones(
+            data.cmdargtoken[1].val.string,
+            data.cmdargtoken[2].val.string,
+            data.cmdargtoken[3].val.numl);
+
+        return CLICMD_SUCCESS;
+    }
+    else
+    {
+        return CLICMD_INVALID_ARG;
+    }
 }
 
-int_fast8_t PIAACMC_FPMresp_resample_cli(){
-    if(CLI_checkarg(1,4)+CLI_checkarg(2,3)+CLI_checkarg(3,2)+CLI_checkarg(4,2)==0)    {
-        PIAACMC_FPMresp_resample(data.cmdargtoken[1].val.string, data.cmdargtoken[2].val.string, data.cmdargtoken[3].val.numl, data.cmdargtoken[4].val.numl);
-        return 0;    }    else        return 1;
+
+errno_t PIAACMC_FPMresp_resample__cli()
+{
+    if(0
+            + CLI_checkarg(1, CLIARG_IMG)
+            + CLI_checkarg(2, CLIARG_STR_NOT_IMG)
+            + CLI_checkarg(3, CLIARG_LONG)
+            + CLI_checkarg(4, CLIARG_LONG)
+            == 0)
+    {
+        PIAACMC_FPMresp_resample(
+            data.cmdargtoken[1].val.string,
+            data.cmdargtoken[2].val.string,
+            data.cmdargtoken[3].val.numl,
+            data.cmdargtoken[4].val.numl);
+            
+        return CLICMD_SUCCESS;
+    }
+    else
+    {
+        return CLICMD_INVALID_ARG;
+    }
 }
+
 
 /* =============================================================================================== */
 /*  6. Focal plane processing                                                                      */
 /* =============================================================================================== */
 
-int_fast8_t PIAACMC_FPM_process_cli(){
-	if(CLI_checkarg(1,4)+CLI_checkarg(2,5)+CLI_checkarg(3,2)+CLI_checkarg(4,3)==0)    {
-        PIAACMC_FPM_process(data.cmdargtoken[1].val.string, data.cmdargtoken[2].val.string, data.cmdargtoken[3].val.numl, data.cmdargtoken[4].val.string);
-        return 0;    }    else        return 1;
+errno_t PIAACMC_FPM_process__cli()
+{
+    if(0
+            + CLI_checkarg(1, CLIARG_IMG)
+            + CLI_checkarg(2, CLIARG_STR)
+            + CLI_checkarg(3, CLIARG_LONG)
+            + CLI_checkarg(4, CLIARG_STR_NOT_IMG)
+            == 0)
+    {
+        PIAACMC_FPM_process(
+            data.cmdargtoken[1].val.string,
+            data.cmdargtoken[2].val.string,
+            data.cmdargtoken[3].val.numl,
+            data.cmdargtoken[4].val.string);
+
+        return CLICMD_SUCCESS;
+    }
+    else
+    {
+        return CLICMD_INVALID_ARG;
+    }
 }
 
 
@@ -194,25 +324,26 @@ int_fast8_t PIAACMC_FPM_process_cli(){
 /*  7. High level routines                                                                         */
 /* =============================================================================================== */
 
-int_fast8_t PIAACMCsimul_run_cli(){
-    if(CLI_checkarg(1,3)+CLI_checkarg(2,2)==0)    {
-        PIAACMCsimul_run(data.cmdargtoken[1].val.string, data.cmdargtoken[2].val.numl);
-        return 0;    }    else        return 1;
+errno_t PIAACMCsimul_run__cli()
+{
+    if(0
+            + CLI_checkarg(1, CLIARG_STR_NOT_IMG)
+            + CLI_checkarg(2, CLIARG_LONG)
+            == 0)
+    {
+        PIAACMCsimul_run(
+            data.cmdargtoken[1].val.string,
+            data.cmdargtoken[2].val.numl);
+
+        return CLICMD_SUCCESS;
+    }
+    else
+    {
+        return CLICMD_INVALID_ARG;
+    }
 }
 
 ///@}
-
-
-
-void __attribute__ ((constructor)) libinit_PIAACMCsimul()
-{
-	if ( INITSTATUS_PIAACMCsimul == 0 )
-	{
-		init_PIAACMCsimul();
-		RegisterModule(__FILE__, "coffee", "PIAACMC system simulation");
-		INITSTATUS_PIAACMCsimul = 1; 
-	}
-}
 
 
 
@@ -223,67 +354,68 @@ void __attribute__ ((constructor)) libinit_PIAACMCsimul()
  */
 ///@{
  
-int_fast8_t init_PIAACMCsimul()
+static errno_t init_module_CLI()
 {
-	#ifdef PIAASIMUL_LOGFUNC0
-		PIAACMCsimul_logFunctionCall("PIAACMCsimul.fcall.log", __FUNCTION__, __LINE__, "");
-	#endif
+
+    RegisterCLIcommand(
+        "piaacmcsimring2sect",
+        __FILE__,
+        PIAACMCsimul_rings2sectors__cli,
+        "turn ring fpm design into sectors",
+        "<input ring fpm> <zone-ring table> <output sector fpm>",
+        "piaacmcsimring2sect",
+        "long PIAACMCsimul_rings2sectors(const char *IDin_name, const char *sectfname, const char *IDout_name)");
+
 	
-    strcpy(data.cmd[data.NBcmd].key,"piaacmcsimring2sect");
-    strcpy(data.cmd[data.NBcmd].module, __FILE__);
-    data.cmd[data.NBcmd].fp = PIAACMCsimul_rings2sectors_cli;
-    strcpy(data.cmd[data.NBcmd].info,"turn ring fpm design into sectors");
-    strcpy(data.cmd[data.NBcmd].syntax,"<input ring fpm> <zone-ring table> <output sector fpm>");
-    strcpy(data.cmd[data.NBcmd].example,"piaacmcsimring2sect");
-    strcpy(data.cmd[data.NBcmd].Ccall,"long PIAACMCsimul_rings2sectors(const char *IDin_name, const char *sectfname, const char *IDout_name)");
-    data.NBcmd++;
+    RegisterCLIcommand(
+        "piaacmcsimrun",
+        __FILE__,
+        PIAACMCsimul_run__cli,
+        "Simulate PIAACMC",
+        "<configuration index [string]> <mode[int]>",
+        "piaacmcsimrun",
+        "int PIAACMCsimul_run(const char *confindex, long mode)");
+
+  	
+    RegisterCLIcommand(
+        "piaacmsimfpmresprm",
+        __FILE__,
+        PIAACMC_FPMresp_rmzones__cli,
+        "remove zones in FPM resp matrix",
+        "<input FPMresp> <output FPMresp> <NBzone removed>",
+        "piaacmsimfpmresprm FPMresp FPMrespout 125",
+        "long PIAACMC_FPMresp_rmzones(const char *FPMresp_in_name, const char *FPMresp_out_name, long NBzones)");
 
 
-    strcpy(data.cmd[data.NBcmd].key,"piaacmcsimrun");
-    strcpy(data.cmd[data.NBcmd].module, __FILE__);
-    data.cmd[data.NBcmd].fp = PIAACMCsimul_run_cli;
-    strcpy(data.cmd[data.NBcmd].info,"Simulate PIAACMC");
-    strcpy(data.cmd[data.NBcmd].syntax,"<configuration index [string]> <mode[int]>");
-    strcpy(data.cmd[data.NBcmd].example,"piaacmcsimrun");
-    strcpy(data.cmd[data.NBcmd].Ccall,"int PIAACMCsimul_run(const char *confindex, long mode)");
-    data.NBcmd++;
+    RegisterCLIcommand(
+        "piaacmsimfpmresprs",
+        __FILE__,
+        PIAACMC_FPMresp_resample__cli,
+        "resample FPM resp matrix",
+        "<input FPMresp> <output FPMresp> <NBlambda> <EvalPts step>",
+        "piaacmsimfpmresprs FPMresp FPMrespout 10 2",
+        "long PIAACMC_FPMresp_resample(const char *FPMresp_in_name, const char *FPMresp_out_name, long NBlambda, long PTstep)");
 
 
-    strcpy(data.cmd[data.NBcmd].key,"piaacmsimfpmresprm");
-    strcpy(data.cmd[data.NBcmd].module, __FILE__);
-    data.cmd[data.NBcmd].fp = PIAACMC_FPMresp_rmzones_cli;
-    strcpy(data.cmd[data.NBcmd].info,"remove zones in FPM resp matrix");
-    strcpy(data.cmd[data.NBcmd].syntax,"<input FPMresp> <output FPMresp> <NBzone removed>");
-    strcpy(data.cmd[data.NBcmd].example,"piaacmsimfpmresprm FPMresp FPMrespout 125");
-    strcpy(data.cmd[data.NBcmd].Ccall,"long PIAACMC_FPMresp_rmzones(const char *FPMresp_in_name, const char *FPMresp_out_name, long NBzones)");
-    data.NBcmd++;
+    RegisterCLIcommand(
+        "piaacmcfpmprocess",
+        __FILE__,
+        PIAACMC_FPM_process__cli,
+        "Quantize FPM",
+        "<input FPM sags> <sectors ASCII file> <number of exposures> <output FPM sags>",
+        "piaacmcfpmprocess",
+        "long PIAACMC_FPM_process(const char *FPMsag_name, const char *zonescoord_name, long NBexp, const char *outname)");
 
-    strcpy(data.cmd[data.NBcmd].key,"piaacmsimfpmresprs");
-    strcpy(data.cmd[data.NBcmd].module, __FILE__);
-    data.cmd[data.NBcmd].fp = PIAACMC_FPMresp_resample_cli;
-    strcpy(data.cmd[data.NBcmd].info,"resample FPM resp matrix");
-    strcpy(data.cmd[data.NBcmd].syntax,"<input FPMresp> <output FPMresp> <NBlambda> <EvalPts step>");
-    strcpy(data.cmd[data.NBcmd].example,"piaacmsimfpmresprs FPMresp FPMrespout 10 2");
-    strcpy(data.cmd[data.NBcmd].Ccall,"long PIAACMC_FPMresp_resample(const char *FPMresp_in_name, const char *FPMresp_out_name, long NBlambda, long PTstep)");
-    data.NBcmd++;
-
-    strcpy(data.cmd[data.NBcmd].key,"piaacmcfpmprocess");
-    strcpy(data.cmd[data.NBcmd].module, __FILE__);
-    data.cmd[data.NBcmd].fp = PIAACMC_FPM_process_cli;
-    strcpy(data.cmd[data.NBcmd].info,"Quantize FPM");
-    strcpy(data.cmd[data.NBcmd].syntax,"<input FPM sags> <sectors ASCII file> <number of exposures> <output FPM sags>");
-    strcpy(data.cmd[data.NBcmd].example,"piaacmcfpmprocess");
-    strcpy(data.cmd[data.NBcmd].Ccall,"long PIAACMC_FPM_process(const char *FPMsag_name, const char *zonescoord_name, long NBexp, const char *outname)");
-    data.NBcmd++;
-
-    strcpy(data.cmd[data.NBcmd].key,"piaacmcgeomprop");
-    strcpy(data.cmd[data.NBcmd].module, __FILE__);
-    data.cmd[data.NBcmd].fp = PIAACMCsimul_geomProp_cli;
-    strcpy(data.cmd[data.NBcmd].info,"Geometric propagation from surface");
-    strcpy(data.cmd[data.NBcmd].syntax,"<input map> <input sag> <output map> <output map counter> <delta refractive index> <pixel scale> <propagation dist> <kernel radius> <kernel step> <clear aperture>");
-    strcpy(data.cmd[data.NBcmd].example,"piaacmcgeomprop pupin piaa0z pupout cntout 2.0 0.00011 2.302606 3.0 0.5 200.0");
-	strcpy(data.cmd[data.NBcmd].Ccall,"long PIAACMCsimul_geomProp(const char *IDin_name, const char *IDsag_name, const char *IDout_name, const char *IDoutcnt_name, float drindex, float pscale, float zprop, float krad, float kstep, float rlim)");
-	data.NBcmd++;
+    RegisterCLIcommand(
+        "piaacmcgeomprop",
+        __FILE__,
+        PIAACMCsimul_geomProp__cli,
+        "Geometric propagation from surface",
+        "<input map> <input sag> <output map> <output map counter> <delta refractive index> <pixel scale> <propagation dist> <kernel radius> <kernel step> <clear aperture>",
+        "piaacmcgeomprop pupin piaa0z pupout cntout 2.0 0.00011 2.302606 3.0 0.5 200.0",
+        "long PIAACMCsimul_geomProp(const char *IDin_name, const char *IDsag_name, const char *IDout_name, const char *IDoutcnt_name, float drindex, float pscale, float zprop, float krad, float kstep, float rlim)");
+    
+    
 
 
 	piaacmcsimul_var.optsystinit = 0;
@@ -339,7 +471,7 @@ int_fast8_t init_PIAACMCsimul()
     // add atexit functions here
     atexit(PIAACMCsimul_free);
 
-    return 0;
+    return RETURN_SUCCESS;
 
 }
 
@@ -350,28 +482,39 @@ int_fast8_t init_PIAACMCsimul()
 // first argument should be "PIAACMCsimul.fcall.log"
 // second argument should be __FUNCTION__
 // PIAACMCsimul_logFunctionCall("PIAACMCsimul.fcall.log", __FUNCTION__, "");
-static void PIAACMCsimul_logFunctionCall(char *LogFileName, const char *FunctionName, long line, char *comments)
+static void PIAACMCsimul_logFunctionCall(
+    char *LogFileName,
+    const char *FunctionName,
+    long line,
+    char *comments
+)
 {
-	FILE *fp;
-	time_t tnow;
-	struct tm *uttime;
-	struct timespec timenow;
+    FILE *fp;
+    time_t tnow;
+    struct tm *uttime;
+    struct timespec timenow;
 
-	char string[21];
-	
-	tnow = time(NULL);
+    char string[21];
+
+    tnow = time(NULL);
     uttime = gmtime(&tnow);
-	clock_gettime(CLOCK_REALTIME, &timenow);
-	
-	// add custom parameter
-	if(piaacmc == NULL)
-		sprintf(string, "NULL");
-	else
-		sprintf(string, "%20ld", piaacmc[0].focmNBzone);
-	
-	fp = fopen(LogFileName, "a");
-	fprintf(fp, "%02d:%02d:%02ld.%09ld  %10d  %40s %6ld   %20s %s\n", uttime->tm_hour, uttime->tm_min, timenow.tv_sec % 60, timenow.tv_nsec, getpid(), FunctionName, line, string, comments);
-	fclose(fp);
+    clock_gettime(CLOCK_REALTIME, &timenow);
+
+    // add custom parameter
+    if(piaacmc == NULL)
+    {
+        sprintf(string, "NULL");
+    }
+    else
+    {
+        sprintf(string, "%20ld", piaacmc[0].focmNBzone);
+    }
+
+    fp = fopen(LogFileName, "a");
+    fprintf(fp, "%02d:%02d:%02ld.%09ld  %10d  %40s %6ld   %20s %s\n",
+            uttime->tm_hour, uttime->tm_min, timenow.tv_sec % 60, timenow.tv_nsec, getpid(),
+            FunctionName, line, string, comments);
+    fclose(fp);
 }
 
 

@@ -4,11 +4,7 @@
  * 
  * Can design both APLCMC and PIAACMC coronagraphs
  *  
- * @author  O. Guyon
- * @date    26 nov 2017
  *
- *
- * @bug No known bugs.
  * 
  */
 
@@ -30,7 +26,6 @@
 
 // milk includes
 #include "CommandLineInterface/CLIcore.h"
-#include "00CORE/00CORE.h"
 #include "COREMOD_tools/COREMOD_tools.h"
 #include "COREMOD_memory/COREMOD_memory.h"
 #include "COREMOD_iofits/COREMOD_iofits.h"
