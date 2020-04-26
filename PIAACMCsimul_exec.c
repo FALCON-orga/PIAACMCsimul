@@ -553,9 +553,9 @@ int PIAACMCsimul_exec(
         r = system(command);
         break;
 
-
+ 
     default :
-        printERROR(__FILE__,__func__,__LINE__, "mode not recognized");
+        PRINT_ERROR("mode not recognized");
         break;
     }
 
