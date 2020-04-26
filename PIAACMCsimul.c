@@ -99,8 +99,6 @@
 /* ================================================================== */
 
 
-static int INITSTATUS_PIAACMCsimul = 0;
-
 
 
 PIAACMCsimul_varType piaacmcsimul_var; 
@@ -124,7 +122,7 @@ OPTPIAACMCDESIGN *piaacmc;
 // Module initialization macro in CLIcore.h
 // macro argument defines module name for bindings
 //
-INIT_MODULE_LIB(milk_module_example)
+INIT_MODULE_LIB(PIAACMCsimul)
 
 
 
