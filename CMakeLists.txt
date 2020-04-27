@@ -40,6 +40,19 @@ PIAACMCsimul_load2DRadialApodization.c )
 
 install(TARGETS ${LIBNAME} DESTINATION lib)
 
+install(PROGRAMS
+	scripts/coffee-optloop
+	scripts/coffee-run
+	scripts/coffee-runclean
+	scripts/coffee-runopt
+	scripts/coffee-runPIAACMC
+	scripts/coffee-runPIAACMCdesign
+	scripts/coffee-setconf
+	scripts/coffee-sim
+	scripts/coffee-waitforfile1
+	DESTINATION bin)
+
+
 install(FILES ${SRCNAME}.h DESTINATION include/${SRCNAME})
 
 
