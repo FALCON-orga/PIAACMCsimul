@@ -323,12 +323,12 @@ echo "$NBlambda" > ./log/conf_nblambda.txt
 #NOTE: this does nothing... can be removed ?
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 800 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 800 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index # set configuration settings
+coffee-sim 800 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index # set configuration settings
 checkerrorstatus
 
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 101 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 101 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index # compute FPMresp if not present
+coffee-sim 101 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index # compute FPMresp if not present
 checkerrorstatus
 
 
@@ -336,7 +336,7 @@ checkerrorstatus
 echo "$searchtime" > searchtime.txt
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 102 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha  $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 102 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim 102 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 
 
@@ -352,7 +352,7 @@ rm looppsfcomp_done
 initlooppsf=0
 
 while [ $loopOK -eq 1 ]; do
-./waitforfile1 looppsfcomp loopstop
+coffee-waitforfile1 looppsfcomp loopstop
 rm looppsfcomp
 echo "loopOK $loopcnt"
 sleep 1
@@ -374,7 +374,7 @@ execcode=$(( 720 + 10*$nbDM ))
 echo "execcode = $execcode"
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim $execcode $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim $execcode $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim $execcode $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 fi
 
@@ -387,7 +387,7 @@ if [ $computecontrast -gt 0 ]
 then
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 721 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 721 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim 721 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 fi
 
@@ -396,7 +396,7 @@ if [ $computecontrast -eq 3 ]
 then
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 722 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 722 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim 722 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 fi
 
@@ -405,7 +405,7 @@ if [ $computecontrast -eq 3 ]
 then
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 723 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 723 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim 723 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 fi
 
@@ -415,7 +415,7 @@ if [ $computecontrast -eq 3 ]
 then
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 724 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 724 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim 724 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 fi
 
@@ -425,7 +425,7 @@ if [ $computecontrast -eq 3 ]
 then
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 725 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 725 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim 725 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 fi
 
@@ -439,7 +439,7 @@ then
 echo "computing transmission curve"
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 echo "$datestr  ./sim 750 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-./sim 750 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+coffee-sim 750 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 checkerrorstatus
 fi
 
@@ -526,7 +526,7 @@ else
 	# if directory does not exist but monochromatic design reference exists, adopt it, otherwise, do nothing
 	datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 	echo "$datestr  ./sim 501 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt	
-	./sim 501 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+	coffee-sim 501 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	
 	checkerrorstatus
 	
@@ -536,26 +536,26 @@ else
 	echo "$MdesignStepMax"
 	datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 	echo "$datestr  ./sim $MdesignStepMax $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-	./sim $MdesignStepMax $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+	coffee-sim $MdesignStepMax $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	
 	checkerrorstatus
 	
 	# copy solution as master reference (if it does not exist) for other lambda / lambdaB
 	datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 	echo "$datestr  ./sim 500 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-	./sim 500 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+	coffee-sim 500 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	checkerrorstatus	
 	
 	# COMPUTE MONOCHROMATIC ON-AXIS PSF with NO focal plane mask -> CONTRAST CALIBRATION
 	datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 	echo "$datestr  ./sim 699 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-	./sim 699 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+	coffee-sim 699 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	checkerrorstatus
 
 	# COMPUTE MONOCHROMATIC ON-AXIS PSF with idealized focal plane mask	
 	datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 	echo "$datestr  ./sim 700 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-	./sim 700 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+	coffee-sim 700 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	checkerrorstatus
 
 	#touch $file1
@@ -604,7 +604,7 @@ if [ $inputmode -eq 10 ]; then
 	# COMPUTE ON-AXIS PSF with idealized focal plane mask, monochromatic
 	datestr=`date -u +%Y-%m-%d_%H:%M:%S`	
 	echo "$datestr  ./sim 700 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index" >> cmdlog.txt
-	./sim 700 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+	coffee-sim 700 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	checkerrorstatus
 fi
 
@@ -615,7 +615,7 @@ if [ $inputmode -eq 11 ]; then
 	datestr=`date -u +%Y-%m-%d_%H:%M:%S`
 	echo "$datestr  ./sim 720 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	checkerrorstatus" >> cmdlog.txt	
-	./sim 720 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
+	coffee-sim 720 $pscale $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $ssize $extmode $fpmmaterial $index
 	checkerrorstatus
 fi
 
