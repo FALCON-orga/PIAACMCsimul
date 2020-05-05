@@ -620,11 +620,11 @@ while getopts :hs:apSm:e:lCcr:q:L FLAG; do
     OptionSelected="1"
     ;;
     C)
-    ./runclean -l 0 &> /dev/null
+    coffee-runclean -l 0 &> /dev/null
     exit
     ;;
     c)
-    ./runclean -l 1 &> /dev/null
+    coffee-runclean -l 1 &> /dev/null
     exit
     ;;
     r)
@@ -632,7 +632,7 @@ while getopts :hs:apSm:e:lCcr:q:L FLAG; do
     dir="$PWD.step${step}"
     if [ -d $dir ]; then
     echo "Directory $dir found"
-    ./runclean 2> /dev/null
+    coffee-runclean 2> /dev/null
     rsync -au --progress $dir/* .
     else
     echo "Directory $dir does not exist: cannot revert to step $step"
@@ -864,33 +864,12 @@ checkFile "pup_$size.fits"
 
 # ============================= CHECK IF COMMANDS EXISTS ==========================
 
-if [ ! -f "runPIAACMCdesign" ]; then
-MKSETUP=1
-fi
 
-if [ "$MKSETUP" = "1" ]; then
-# ===========================================
-#    MAKE LOCAL COPY (SYM LINK) OF SCRIPTS
-# ===========================================
-rm syncscripts 2> /dev/null
-ln -s $srcdir/PIAACMCsimul/scripts/syncscripts syncscripts
-./syncscripts
-# you should see the following scripts in the work directory:
-# ./run
-# ./runclean
-# ./runopt
-# ./runPIAACMC
-# ./sim
-echo "$srcdir/PIAACMCsimul/scripts/syncscripts"
-fi
-
-
-
-checkCommand "./run"
-checkCommand "./runclean"
-checkCommand "./runopt"
-checkCommand "./runPIAACMC"
-checkCommand "./sim"
+checkCommand "coffee-run"
+checkCommand "coffee-runclean"
+checkCommand "coffee-runopt"
+checkCommand "coffee-runPIAACMC"
+checkCommand "coffee-sim"
 
 
 
