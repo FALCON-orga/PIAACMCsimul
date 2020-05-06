@@ -717,7 +717,7 @@ rm cmdlog.txt
 
 
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
-echo "$datestr  coffee-runopt $runoptcmd $pscale $coin $coout $fpmradld $lambda $PIAAmaterial $LStransm $NBls $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz 000" > cmdlog.txt
+echo "$datestr coffee-runopt $runoptcmd $pscale $coin $coout $fpmradld $lambda $PIAAmaterial $LStransm $NBls $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz 000" > cmdlog.txt
 
 touch run.cmd.tsart
 

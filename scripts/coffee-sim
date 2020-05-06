@@ -243,7 +243,7 @@ exit
 fi
 
 
-echo "====== EXECUTING: ./runPIAACMC $dirname $size $pscale $pupfile $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $index $designstep"
+echo "====== EXECUTING: coffee-runPIAACMC $dirname $size $pscale $pupfile $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $index $designstep"
 
 
 
@@ -254,9 +254,9 @@ echo "====== EXECUTING: ./runPIAACMC $dirname $size $pscale $pupfile $coin $coou
 
 
 datestr=`date -u +%Y-%m-%d_%H:%M:%S`
-echo "$datestr  ./runPIAACMC $dirname $size $pscale $pupfile $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $index $designstep" >> cmdlog.txt
+echo "$datestr  coffee-runPIAACMC $dirname $size $pscale $pupfile $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $index $designstep" >> cmdlog.txt
 
-./runPIAACMC $dirname $size $pscale $pupfile $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $index $designstep
+coffee-runPIAACMC $dirname $size $pscale $pupfile $coin $coout $fpmrad $lambda $PIAAmaterial $LStransm $NBlyotstop $mlambda $mlambdaB $NBrings $maskradld $ssize $extmode $fpmmaterial $fpmminsag $fpmmaxsag $fpmregsag_coeff $fpmregsag_alpha $fpmccnbr $fpmccz $fpmocradld $fpmocz $index $designstep
 #$fpmrad $coin $coout ${rmode} ${emode} ${sprange} $lambda $PIAAmaterial $designstep
 
 #cp -rf $dirname ${dirname}_step$designstep

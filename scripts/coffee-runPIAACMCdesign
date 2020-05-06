@@ -620,11 +620,11 @@ while getopts :hs:apSm:e:lCcr:q:L FLAG; do
     OptionSelected="1"
     ;;
     C)
-    ./runclean -l 0 &> /dev/null
+    ./coffee-runclean -l 0 &> /dev/null
     exit
     ;;
     c)
-    ./runclean -l 1 &> /dev/null
+    ./coffee-runclean -l 1 &> /dev/null
     exit
     ;;
     r)
@@ -632,7 +632,7 @@ while getopts :hs:apSm:e:lCcr:q:L FLAG; do
     dir="$PWD.step${step}"
     if [ -d $dir ]; then
     echo "Directory $dir found"
-    ./runclean 2> /dev/null
+    ./coffee-runclean 2> /dev/null
     rsync -au --progress $dir/* .
     else
     echo "Directory $dir does not exist: cannot revert to step $step"
@@ -864,33 +864,33 @@ checkFile "pup_$size.fits"
 
 # ============================= CHECK IF COMMANDS EXISTS ==========================
 
-if [ ! -f "runPIAACMCdesign" ]; then
-MKSETUP=1
-fi
+#if [ ! -f "runPIAACMCdesign" ]; then
+#MKSETUP=1
+#fi
 
-if [ "$MKSETUP" = "1" ]; then
-# ===========================================
-#    MAKE LOCAL COPY (SYM LINK) OF SCRIPTS
-# ===========================================
-rm syncscripts 2> /dev/null
-ln -s $srcdir/PIAACMCsimul/scripts/syncscripts syncscripts
-./syncscripts
-# you should see the following scripts in the work directory:
-# ./run
-# ./runclean
-# ./runopt
-# ./runPIAACMC
-# ./sim
-echo "$srcdir/PIAACMCsimul/scripts/syncscripts"
-fi
+#if [ "$MKSETUP" = "1" ]; then
+## ===========================================
+##    MAKE LOCAL COPY (SYM LINK) OF SCRIPTS
+## ===========================================
+#rm syncscripts 2> /dev/null
+#ln -s $srcdir/PIAACMCsimul/scripts/syncscripts syncscripts
+#./syncscripts
+## you should see the following scripts in the work directory:
+## ./run
+## ./runclean
+## ./runopt
+## ./runPIAACMC
+## ./sim
+#echo "$srcdir/PIAACMCsimul/scripts/syncscripts"
+#fi
 
 
 
-checkCommand "./run"
-checkCommand "./runclean"
-checkCommand "./runopt"
-checkCommand "./runPIAACMC"
-checkCommand "./sim"
+#checkCommand "./run"
+#checkCommand "./runclean"
+#checkCommand "./runopt"
+#checkCommand "./runPIAACMC"
+#checkCommand "./sim"
 
 
 
@@ -935,8 +935,8 @@ fi
 
 
 
-# type "./run" (no arguments) to see current configuration parameters and write the parameters in ./conf directory
-# ./run
+# type "./coffee-run" (no arguments) to see current configuration parameters and write the parameters in ./conf directory
+# ./coffee-run
 # configuration parameters are listed as files: ./conf/conf_<PARAMETERNAME>.txt
 
 
@@ -1016,7 +1016,7 @@ fi
 
 
 if [ "$ListParam" -eq 1 ]; then
-./run
+./coffee-run
 exit
 fi
 
@@ -1046,7 +1046,7 @@ echo "FPM sag file        :  $FPMsagfile"
 
 $execname << EOF
 loadfits "piaacmcconf_i000/$FPMsagfile" fpmin
-piaacmcfpmprocess fpmin $FPMcoordFile $NBexp fpmout.txt
+piaacmcsim.piaacmcfpmprocess fpmin $FPMcoordFile $NBexp fpmout.txt
 exit
 EOF
 
@@ -1068,7 +1068,7 @@ fi
 step="001"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1096,7 +1096,7 @@ if [ "$APLCMC" = "0" ]; then
 step="002"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1116,7 +1116,7 @@ if [ "$APLCMC" = "0" ]; then
 step="003"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1133,7 +1133,7 @@ if [ "$APLCMC" = "0" ]; then
 step="004"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1152,7 +1152,7 @@ if [ "$APLCMC" = "0" ]; then
 step="005"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1169,7 +1169,7 @@ if [ "$APLCMC" = "0" ]; then
 step="006"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1187,7 +1187,7 @@ if [ "$APLCMC" = "0" ]; then
 step="007"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1204,7 +1204,7 @@ if [ "$APLCMC" = "0" ]; then
 step="008"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1225,7 +1225,7 @@ if [ "$APLCMC" = "0" ]; then
 step="009"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1246,7 +1246,7 @@ if [ "$APLCMC" = "0" ]; then
 step="010"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1265,7 +1265,7 @@ if [ "$APLCMC" = "0" ]; then
 step="011"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1289,7 +1289,7 @@ if [ "$APLCMC" = "0" ]; then
 step="012"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1309,7 +1309,7 @@ if [ "$APLCMC" = "0" ]; then
 step="013"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1328,7 +1328,7 @@ if [ "$APLCMC" = "0" ]; then
 step="014"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1345,7 +1345,7 @@ if [ "$APLCMC" = "0" ]; then
 step="015"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1364,7 +1364,7 @@ if [ "$APLCMC" = "0" ]; then
 step="016"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1384,7 +1384,7 @@ if [ "$APLCMC" = "0" ]; then
 step="017"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1407,7 +1407,7 @@ if [ "$APLCMC" = "0" ]; then
 step="018"
 if [ "$step" -le "$mSTEP" ]; then
 	if [ ! -f "step$step.txt" ]; then
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1431,7 +1431,7 @@ fi
 
 step="200"
 if [ "$step" -eq "$mSTEP" ]; then		
-		./run optsingle $step
+		coffee-run optsingle $step
 		if [ "$SAVESTEP" = "1" ]; then
 			rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 		fi
@@ -1474,7 +1474,7 @@ fi
 # compute the PSF and complex amplitudes for the best solution
 step="300"
 if [ "$step" = "$mSTEP" ]; then
-	./run proppoly 0
+	coffee-run proppoly 0
 	if [ "$SAVESTEP" = "1" ]; then
 		rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 	fi
@@ -1500,7 +1500,7 @@ fi
 # compute the PSF and complex amplitudes for the best solution
 step="400"
 if [ "$step" = "$mSTEP" ]; then
-	./run eval0 18
+	coffee-run eval0 18
 	if [ "$SAVESTEP" = "1" ]; then
 		rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 	fi
@@ -1512,7 +1512,7 @@ fi
 # compute PSF, point source and extended source
 step="401"
 if [ "$step" = "$mSTEP" ]; then
-	./run eval1 18
+	coffee-run eval1 18
 	if [ "$SAVESTEP" = "1" ]; then
 		rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 	fi
@@ -1545,7 +1545,7 @@ fi
 # compute PSF, point source and extended source, transmission curve
 step="402"
 if [ "$step" = "$mSTEP" ]; then
-	./run eval2 18
+	coffee-run eval2 18
 	if [ "$SAVESTEP" = "1" ]; then
 		rsync -au --progress $PWD/ $PWD.step${step} &> /dev/null
 	fi
